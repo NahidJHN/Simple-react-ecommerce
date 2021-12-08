@@ -1,4 +1,4 @@
-[
+const productData=[
     {
         "key": "B002RL8IYK",
         "category": "laptop",
@@ -2176,3 +2176,8 @@
         "shipping": 7.99
     }
 ]
+
+let data = JSON.stringify(productData)
+let fakeData=JSON.parse(data)
+
+export default fakeData
