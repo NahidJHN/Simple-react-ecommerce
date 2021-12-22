@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom"
+import { userContext } from '../App';
+import { getAuth, signOut } from 'firebase/auth';
+import { initializeApp } from "firebase/app"
+import fireBaseConfig from "./config"
+
+//initialize fireBase app
+let app = initializeApp(fireBaseConfig)
+const auth = getAuth(app);
+
+
+
 const NavBar = (props) => {
-    // console.log(props.cart)
+    const [user, setUser] = useContext(userContext)
+
+
+    const handleLogOut = () => {
+        signOut(auth).then(() => {
+            setUser({ email: "", displayName: "" })
+            console.log("logout successFull")
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -17,6 +38,14 @@ const NavBar = (props) => {
 
                 </Nav>
                 <Nav.Link className="ms-auto" as={Link} to="/review-order"><FontAwesomeIcon icon={faShoppingCart} /> My Cart ({props.cart.length})</Nav.Link>
+
+                {user.email ? <Nav.Link onClick={handleLogOut} className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+                    Loginout
+                </Nav.Link>:<Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+                    Login
+                </Nav.Link>}
+                
+
             </Container>
         </Navbar>
     );

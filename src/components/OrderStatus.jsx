@@ -1,38 +1,47 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
-
-const OrderStatus = ({ cart }) => {
-
-    let itemsPrice = 0;
-    let shippingHanding = 0
-    let totalBeforeTax = 0
-    let tax = 0
-    let totalAfterTax = 0
-
-    for (let i = 0; i < cart.length; i++) {
-        itemsPrice += cart[i].price;
-        shippingHanding += cart[i].shipping
-        tax = parseFloat((cart[i].price * 15 / 100).toFixed(2))
-
-    }
-
-    itemsPrice = parseFloat(itemsPrice.toFixed(2))
-    totalBeforeTax = parseFloat((itemsPrice + shippingHanding).toFixed(2))
-    totalAfterTax = Math.ceil((totalBeforeTax + tax))
+import { cartContext, orderCalculationContext } from '../App';
 
 
+const OrderStatus = ({ buttonText }) => {
+
+    const { cart } = useContext(cartContext)
+    const { orderCalculate, setOrderCalculate } = useContext(orderCalculationContext)
+
+
+    useEffect(() => {
+        let { totalItem, totalAmount, shipping, tax } = cart.reduce((totalVal, currentVal) => {
+            let { quantity, price, shipping } = currentVal
+            totalVal.totalItem += quantity
+            let updatedAmount = Math.ceil(price * quantity)
+            totalVal.totalAmount += updatedAmount
+            totalVal.shipping += shipping
+            totalVal.tax = parseInt((totalVal.totalAmount * 15 / 100).toFixed(2))
+            return totalVal
+        }, { totalItem: 0, totalAmount: 0, shipping: 0, tax: 0 })
+
+        setOrderCalculate({ ...orderCalculate, totalProduct: totalItem, totalAmount, shippingAndHanding: shipping, tax })
+
+    }, [cart, orderCalculate, setOrderCalculate])
+
+
+    const { totalProduct, totalAmount, shippingAndHanding, tax } = orderCalculate
+
+    let totalBeforeTax = totalAmount + shippingAndHanding
+    let totalAfterTax = totalBeforeTax + tax
 
     return (
         <OrderWraper>
             <h4>Order Summery:</h4>
+            <small>You have selected  {totalProduct} product in your cart</small><br />
             <table style={{ width: "80%" }}>
                 <tr>
                     <td>Items price:</td>
-                    <td>${itemsPrice}</td>
+                    <td>${totalAmount}</td>
                 </tr>
                 <tr>
                     <td>Shipping and Handing:</td>
-                    <td>${shippingHanding}</td>
+                    <td>${shippingAndHanding}</td>
                 </tr>
                 <tr>
                     <td>Total before Tax:</td>
@@ -42,14 +51,12 @@ const OrderStatus = ({ cart }) => {
                     <td>Tax :</td>
                     <td>${tax}</td>
                 </tr>
-
                 <tr style={{ borderTop: "2px solid tomato" }}>
                     <td>Total</td>
                     <td>${totalAfterTax}</td>
                 </tr>
             </table>
-
-            <ReviewOrder>Review Order</ReviewOrder>
+            <ReviewOrderButton>{buttonText}</ReviewOrderButton>
 
         </OrderWraper>
 
@@ -62,7 +69,7 @@ const OrderWraper = styled.div`
     font-weight: 700;
 `
 
-const ReviewOrder = styled.a`
+const ReviewOrderButton = styled.a`
     padding:7px;
     width:150px;
     font-size: 16px;

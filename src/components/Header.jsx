@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavBar from './NavBar';
-import { Form } from "react-bootstrap"
+
 
 const Header = (props) => {
     return (
@@ -10,12 +10,6 @@ const Header = (props) => {
                 <img src="/images/logo.png" alt="" />
             </Logo>
             <NavBar cart={props.cart} />
-            <SearchBox>
-                <Form.Label>Search Product</Form.Label>
-                <Form.Control type="search" placeholder="Search Here" />
-            </SearchBox>
-
-
         </>
     );
 };
@@ -32,12 +26,7 @@ const Logo = styled.div`
 
     }
 `
-const SearchBox = styled.div`
-padding:1rem;
-background:#0a0a0a;
-margin:auto
 
-`
 
 
 export default Header;

@@ -1,28 +1,15 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
 import { Col, Row, Container } from "react-bootstrap"
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { cartContext } from '../../App';
 
 const Product = (props) => {
     let { addToCartController } = props
     let { name, img, seller, price, stock, star, features, key } = props.product;
-    const { cart } = useContext(cartContext)
-
-    // let addToCartButton;
-
-    // for (let i = 0; i < cart.length; i++) {
-    //     if (cart[i].key === key) {
-    //         <Button onClick={() => addToCartController(key)}>Added</Button>
-
-    //     } else {
-    //         <Button onClick={() => addToCartController(key)}>Add to cart</Button>
-
-    //     }
 
 
-    // }
     let starIcon = star > 0 ? [<a href="#"><FontAwesomeIcon icon={faStar} /></a>] : null
 
     for (let i = 1; i < star; i++) {
@@ -30,7 +17,7 @@ const Product = (props) => {
 
     }
     return (
-        <Container key={key} className="mb-3 py-3">
+        <Container className="mb-3 py-3">
             <Row>
                 <Col xl={3} md={12} sm={12}>
                     <ImageContainer>
@@ -47,8 +34,7 @@ const Product = (props) => {
                             <p>by {seller}</p>
                             <h3>{price}</h3>
                             <p>Only {stock} left in stock</p>
-                            <Button onClick={() => addToCartController(key)}>Add to Cart</Button>
-                            {/* {addToCartButton} */}
+                            <Button onClick={() => addToCartController(key)}>Add to cart</Button>
                         </Col>
                         <Col md={8} sm={12}>
                             <StarIconWraper>

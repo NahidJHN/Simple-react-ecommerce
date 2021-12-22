@@ -1,32 +1,55 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+
+import React, { useContext } from 'react';
 import { Col, Row, Container } from "react-bootstrap"
 import styled from 'styled-components';
 import { cartContext } from '../App';
 import { Link } from "react-router-dom"
+import OrderStatus from './OrderStatus';
 
 
 
-const ReviewOrderTemplate = ({ product }) => {
+const ReviewOrderTemplate = (props) => {
 
     //import cart context for remove a product form cart
     const { cart, setCart } = useContext(cartContext)
 
     //distracture the product information
-    const { name, img, price, seller, stock, key } = product
-    let [productQuantity, setProductQuantity] = useState(1)
+    const { name, img, price, seller, stock, key, quantity } = props.product
+
+    // const { setTotalItemPrice } = props
+
 
     //increasing product quantity controller
     const increaseQuantityController = (productId) => {
-        if (key === productId) {
-            setProductQuantity(productQuantity += 1)
+        if (key === productId && stock > quantity) {
+            let updatedQuantityCart = cart.map(p => {
+                if (p.key === productId) {
+                    p.quantity = p.quantity + 1
+
+                }
+                return p
+            })
+            setCart(updatedQuantityCart)
         }
+
     }
 
     //decreasing product quantity controller
 
     const decreaseQuantityController = (productId) => {
-        if (key === productId && productQuantity > 1) {
-            setProductQuantity(productQuantity -= 1)
+        if (key === productId && quantity > 1) {
+            let updatedQuantityCart = cart.map(p => {
+                if (p.key === productId) {
+                    p.quantity = p.quantity - 1
+
+
+                }
+                return p
+            })
+            setCart(updatedQuantityCart)
+
         }
     }
 
@@ -37,6 +60,7 @@ const ReviewOrderTemplate = ({ product }) => {
             setCart(updatedCart)
         }
     }
+
 
     return (
 
@@ -61,8 +85,7 @@ const ReviewOrderTemplate = ({ product }) => {
                         </Col>
                         <Col md={8} sm={12}>
                             <h2>Price: {price}</h2>
-                            <h6>Product Quantity:{productQuantity}</h6>
-                            <h6>Total Price :</h6>
+                            <h6>Product Quantity:{quantity}</h6>
                         </Col>
                     </Row>
                 </Col>
@@ -76,15 +99,29 @@ const ReviewOrderTemplate = ({ product }) => {
 
 
 const ReviewOrder = () => {
-    const { cart, setCart } = useContext(cartContext)
+    const { cart } = useContext(cartContext)
+
+
     return (
         <>
+            <Row>
+                <Col xl={8} md={9} >
+                    {cart.length < 1 ? <h2>You don,t select any product Please select a product<Link to="/product">Here</Link></h2> : cart.map((product) =>
 
-            {cart.length < 1 ? <h2>You don,select any product, Please select a product<Link to="/product">Here</Link></h2> : cart.map((product) =>
-                <ReviewOrderTemplate
-                    key={product.key}
-                    product={product}
-                />)}
+                        <ReviewOrderTemplate
+                            key={product.key}
+                            product={product}
+                        />
+
+                    )}
+                </Col>
+                <Col xl={4} md={3}>
+                    <OrderStatus
+                        buttonText="Purshase"
+                    />
+                </Col>
+
+            </Row>
 
         </>
     )

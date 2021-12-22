@@ -17,11 +17,11 @@ const ShowProduct = () => {
     const currentProduct = fakeData.slice(indexOfFirstProduct, indexOfLastProduct)
     const totalPages = Math.ceil(fakeData.length / 10)
 
-
+    //import cart form cart context
     const { cart, setCart } = useContext(cartContext)
+
     const controlPage = (currentPage, i) => {
         setCurrentPage(currentPage = i)
-
 
     }
 
@@ -37,6 +37,8 @@ const ShowProduct = () => {
         const matchingProduct = fakeData.find(p => p.key === productKey)
         const isExits = cart.find(c => c.key === matchingProduct.key)
         if (!isExits) {
+            matchingProduct.quantity = 1
+            matchingProduct.tax = matchingProduct.price * 15 / 100
             setCart([...cart, matchingProduct])
 
         }
@@ -50,14 +52,18 @@ const ShowProduct = () => {
                 <Col md={8} sm={8}>
                     {currentProduct.map(p =>
                         <Product key={p.key} product={p}
-                            // cartButtonText={cartButtonText}
                             addToCartController={addToCartController} />
                     )}
                 </Col>
-
                 <Col md={4} sm={4}>
-                    <OrderStatus cart={cart} />
+                    <OrderStatus
+                        buttonText="Review Order"
+
+
+                    />
                 </Col>
+            </Row>
+
                 < PagesCount
                     totalPages={totalPages}
                     currentPage={currentPage}
@@ -66,7 +72,6 @@ const ShowProduct = () => {
                     previousPageController={previousPageController}
                 />
 
-            </Row>
         </>
     )
 };
