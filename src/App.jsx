@@ -40,17 +40,16 @@ function App() {
             <Header cart={cart} />
             <Routes>
               <Route path="/" element={<Navigate to="/product" />} />
-              <Route path="/product" element={<ShowProduct />} />
-              <Route path="/review-order" element={<ReviewOrder />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/checkout" element={<PrivateRoute />}>
+              <Route path="product" element={<ShowProduct />} />
+              <Route path="review-order" element={<ReviewOrder />} />
+              <Route path="login" element={<Login />} />
+              <Route path="checkout" element={<PrivateRoute />}>
                 <Route element={<Checkout />} />
               </Route>
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Container>
-          <Routes>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+
         </orderCalculationContext.Provider>
       </cartContext.Provider>
     </userContext.Provider>
