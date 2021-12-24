@@ -57,6 +57,7 @@ const ShowProduct = () => {
                 </Col>
                 <Col md={4} sm={4}>
                     <OrderStatus
+                        navigateTo="review-order"
                         buttonText="Review Order"
 
 

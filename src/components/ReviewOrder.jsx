@@ -117,7 +117,8 @@ const ReviewOrder = () => {
                 </Col>
                 <Col xl={4} md={3}>
                     <OrderStatus
-                        buttonText="Purshase"
+                        navigateTo="checkout"
+                        buttonText="Checkout"
                     />
                 </Col>
 

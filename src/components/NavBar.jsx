@@ -7,7 +7,7 @@ import { userContext } from '../App';
 import { getAuth, signOut } from 'firebase/auth';
 import { initializeApp } from "firebase/app"
 import fireBaseConfig from "./config"
-
+import { getUserItem, removeUserItem } from '../components/Authentication/storageConfig'
 //initialize fireBase app
 let app = initializeApp(fireBaseConfig)
 const auth = getAuth(app);
@@ -16,12 +16,13 @@ const auth = getAuth(app);
 
 const NavBar = (props) => {
     const [user, setUser] = useContext(userContext)
+    const email = getUserItem()
 
 
     const handleLogOut = () => {
         signOut(auth).then(() => {
             setUser({ email: "", displayName: "" })
-            console.log("logout successFull")
+            removeUserItem()
         }).catch((error) => {
             console.log(error)
         });
@@ -39,12 +40,12 @@ const NavBar = (props) => {
                 </Nav>
                 <Nav.Link className="ms-auto" as={Link} to="/review-order"><FontAwesomeIcon icon={faShoppingCart} /> My Cart ({props.cart.length})</Nav.Link>
 
-                {user.email ? <Nav.Link onClick={handleLogOut} className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
-                    Loginout
-                </Nav.Link>:<Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+                {email ? <Nav.Link onClick={handleLogOut} className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+                    Logout
+                </Nav.Link> : <Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
                     Login
                 </Nav.Link>}
-                
+
 
             </Container>
         </Navbar>

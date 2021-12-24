@@ -4,12 +4,16 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { userContext } from '../../App';
 import { initializeApp } from "firebase/app"
 import fireBaseConfig from "../config"
+import { setUserItem, removeUserItem } from "../Authentication/storageConfig"
 
+
+// import { useNavigate,useLocation} from "react-router-dom"
 //initialize fireBase app
 let app = initializeApp(fireBaseConfig)
 const auth = getAuth(app);
 
 const Login = () => {
+    // removeUserItem()
     const [user, setUser] = useContext(userContext)
     const [error, setError] = useState('')
     const [loginInfo, setLoginInfo] = useState({ email: "", password: "", username: "" })
@@ -20,12 +24,10 @@ const Login = () => {
 
     const { email, password, username } = loginInfo
 
+
+
     const handleSubmit = (event) => {
         event.preventDefault()
-
-
-
-
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const userInfo = userCredential.user;
@@ -33,6 +35,7 @@ const Login = () => {
                     displayName: username
                 }).then(() => {
                     setUser({ email: userInfo.email, displayName: userInfo.displayName })
+                    setUserItem(user.email)
 
                 })
             })
@@ -48,11 +51,13 @@ const Login = () => {
 
         signInWithPopup(auth, provider)
             .then((result) => {
-                const user = result.user;
-                setUser({ email: user.email, displayName: user.displayName })
+                const userInfo = result.user;
+                setUser({ email: userInfo.email, displayName: userInfo.displayName })
+                setUserItem(user.email)
             }).catch(error => {
                 setError(error.message || error.email)
             })
+
 
     }
 
@@ -61,8 +66,10 @@ const Login = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 // The signed-in user info.
-                const user = result.user;
-                setUser({ email: user.email, displayName: user.displayName })
+                const userInfo = result.user;
+                setUser({ email: userInfo.email, displayName: userInfo.displayName })
+                setUserItem(user.email)
+
             })
             .catch((error) => {
                 setError(error.message || error.email)

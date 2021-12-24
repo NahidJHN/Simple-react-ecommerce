@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { cartContext, orderCalculationContext } from '../App';
+import {useNavigate} from "react-router-dom"
 
-
-const OrderStatus = ({ buttonText }) => {
-
+const OrderStatus = ({ buttonText,navigateTo }) => {
+    const navigate=useNavigate()
     const { cart } = useContext(cartContext)
     const { orderCalculate, setOrderCalculate } = useContext(orderCalculationContext)
 
@@ -56,7 +56,7 @@ const OrderStatus = ({ buttonText }) => {
                     <td>${totalAfterTax}</td>
                 </tr>
             </table>
-            <ReviewOrderButton>{buttonText}</ReviewOrderButton>
+            <ReviewOrderButton onClick={()=>navigate(`/${navigateTo}`)}>{buttonText}</ReviewOrderButton>
 
         </OrderWraper>
 
