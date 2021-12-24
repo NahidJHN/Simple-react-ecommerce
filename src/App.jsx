@@ -50,8 +50,7 @@ function App() {
           </Container>
           <Routes>
             <Route path="*" element={<NotFound />} />
-
-          </Routes>
+ </Routes>
         </orderCalculationContext.Provider>
       </cartContext.Provider>
     </userContext.Provider>
