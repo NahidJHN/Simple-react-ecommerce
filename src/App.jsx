@@ -46,10 +46,12 @@ function App() {
               <Route path="checkout" element={<PrivateRoute />}>
                 <Route element={<Checkout />} />
               </Route>
-              <Route path="*" element={<NotFound />} />
             </Routes>
           </Container>
+          <Routes>
+            <Route path="*" element={<NotFound />} />
 
+          </Routes>
         </orderCalculationContext.Provider>
       </cartContext.Provider>
     </userContext.Provider>
