@@ -18,7 +18,7 @@ const NavBar = (props) => {
     const [user, setUser] = useContext(userContext)
     const email = getUserItem()
 
-
+    console.log(user)
     const handleLogOut = () => {
         signOut(auth).then(() => {
             setUser({ email: "", displayName: "" })
