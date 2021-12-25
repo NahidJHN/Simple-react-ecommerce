@@ -19,8 +19,9 @@ const Login = () => {
 
     function locationRedirect() {
         if (location.state?.from) {
-            navigate(location.state.from)
+            return navigate(location.state.from)
         }
+        navigate("/")
     }
 
     // onchange state 

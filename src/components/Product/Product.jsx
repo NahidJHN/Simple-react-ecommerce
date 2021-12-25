@@ -10,10 +10,10 @@ const Product = (props) => {
     let { name, img, seller, price, stock, star, features, key } = props.product;
 
 
-    let starIcon = star > 0 ? [<a href="#"><FontAwesomeIcon icon={faStar} /></a>] : null
+    let starIcon = star > 0 ? [<a key={1} href="#"><FontAwesomeIcon icon={faStar} /></a>] : null
 
     for (let i = 1; i < star; i++) {
-        starIcon.push(<a href="#"><FontAwesomeIcon icon={faStar} /></a>)
+        starIcon.push(<a key={i + 1} href="#"><FontAwesomeIcon icon={faStar} /></a>)
 
     }
     return (
@@ -43,8 +43,8 @@ const Product = (props) => {
                             </StarIconWraper>
                             <h2>Features</h2>
                             <ul>
-                                {features.map(f =>
-                                    <li>{f.description}:{f.value}</li>
+                                {features.map((f, index) =>
+                                    <li key={index}>{f.description}:{f.value}</li>
                                 )}
                             </ul>
                         </Col>
@@ -52,8 +52,8 @@ const Product = (props) => {
 
                 </Col>
 
-            </Row>
-        </Container>
+            </Row >
+        </Container >
     );
 };
 

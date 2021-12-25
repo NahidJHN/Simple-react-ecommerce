@@ -51,7 +51,9 @@ const ShowProduct = () => {
             <Row>
                 <Col md={8} sm={8}>
                     {currentProduct.map(p =>
-                        <Product key={p.key} product={p}
+                        <Product
+                            key={p.key}
+                            product={p}
                             addToCartController={addToCartController} />
                     )}
                 </Col>
@@ -65,13 +67,13 @@ const ShowProduct = () => {
                 </Col>
             </Row>
 
-                < PagesCount
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    controlPage={controlPage}
-                    nextPageController={nextPageController}
-                    previousPageController={previousPageController}
-                />
+            < PagesCount
+                totalPages={totalPages}
+                currentPage={currentPage}
+                controlPage={controlPage}
+                nextPageController={nextPageController}
+                previousPageController={previousPageController}
+            />
 
         </>
     )

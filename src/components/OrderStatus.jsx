@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { cartContext, orderCalculationContext } from '../App';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-const OrderStatus = ({ buttonText,navigateTo }) => {
-    const navigate=useNavigate()
+const OrderStatus = ({ buttonText, navigateTo }) => {
+    const navigate = useNavigate()
     const { cart } = useContext(cartContext)
     const { orderCalculate, setOrderCalculate } = useContext(orderCalculationContext)
 
@@ -35,28 +35,30 @@ const OrderStatus = ({ buttonText,navigateTo }) => {
             <h4>Order Summery:</h4>
             <small>You have selected  {totalProduct} product in your cart</small><br />
             <table style={{ width: "80%" }}>
-                <tr>
-                    <td>Items price:</td>
-                    <td>${totalAmount}</td>
-                </tr>
-                <tr>
-                    <td>Shipping and Handing:</td>
-                    <td>${shippingAndHanding}</td>
-                </tr>
-                <tr>
-                    <td>Total before Tax:</td>
-                    <td style={{ borderTop: "1px solid tomato" }}>${totalBeforeTax}</td>
-                </tr>
-                <tr>
-                    <td>Tax :</td>
-                    <td>${tax}</td>
-                </tr>
-                <tr style={{ borderTop: "2px solid tomato" }}>
-                    <td>Total</td>
-                    <td>${totalAfterTax}</td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Items price:</td>
+                        <td>${totalAmount}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping and Handing:</td>
+                        <td>${shippingAndHanding}</td>
+                    </tr>
+                    <tr>
+                        <td>Total before Tax:</td>
+                        <td style={{ borderTop: "1px solid tomato" }}>${totalBeforeTax}</td>
+                    </tr>
+                    <tr>
+                        <td>Tax :</td>
+                        <td>${tax}</td>
+                    </tr>
+                    <tr style={{ borderTop: "2px solid tomato" }}>
+                        <td>Total</td>
+                        <td>${totalAfterTax}</td>
+                    </tr>
+                </tbody>
             </table>
-            <ReviewOrderButton onClick={()=>navigate(`/${navigateTo}`)}>{buttonText}</ReviewOrderButton>
+            <ReviewOrderButton onClick={() => navigate(`/${navigateTo}`)}>{buttonText}</ReviewOrderButton>
 
         </OrderWraper>
 

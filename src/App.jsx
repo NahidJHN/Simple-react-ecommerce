@@ -46,8 +46,9 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Registration />} />
               <Route path="checkout" element={<PrivateRoute />}>
-                <Route element={<Checkout />} />
+                <Route path="/checkout" element={<Checkout />} />
               </Route>
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Container>
