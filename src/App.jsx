@@ -9,6 +9,7 @@ import Login from './components/Authentication/login';
 import Checkout from "./components/Checkout"
 import PrivateRoute from './components/Authentication/PrivateRoute';
 import NotFound from "./components/NotFound"
+import Registration from './components/Authentication/Registration';
 
 export const cartContext = createContext()
 export const orderCalculationContext = createContext()
@@ -43,13 +44,14 @@ function App() {
               <Route path="product" element={<ShowProduct />} />
               <Route path="review-order" element={<ReviewOrder />} />
               <Route path="login" element={<Login />} />
+              <Route path="register" element={<Registration />} />
               <Route path="checkout" element={<PrivateRoute />}>
                 <Route element={<Checkout />} />
               </Route>
-            <Route path="*" element={<NotFound />} />
-   </Routes>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </Container>
-      
+
         </orderCalculationContext.Provider>
       </cartContext.Provider>
     </userContext.Provider>

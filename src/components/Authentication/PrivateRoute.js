@@ -1,12 +1,13 @@
 import React from 'react';
-import { Outlet, Navigate } from "react-router-dom"
+import { Outlet, Navigate, useLocation } from "react-router-dom"
 import { getUserItem } from './storageConfig';
 
 
 
 const PrivateRoute = () => {
-   let email= getUserItem()
-  return email ? <Outlet /> : < Navigate to="/login"/>
-  }
+  const location = useLocation()
+  let email = getUserItem()
+  return email ? <Outlet /> : < Navigate replace state={{ from: location }} to="/login" />
+}
 
 export default PrivateRoute;

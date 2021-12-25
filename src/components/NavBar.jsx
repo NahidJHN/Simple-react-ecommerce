@@ -1,8 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from 'react';
 import { Navbar, Container, Nav } from "react-bootstrap"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { userContext } from '../App';
 import { getAuth, signOut } from 'firebase/auth';
 import { initializeApp } from "firebase/app"
@@ -11,22 +12,35 @@ import { getUserItem, removeUserItem } from '../components/Authentication/storag
 //initialize fireBase app
 let app = initializeApp(fireBaseConfig)
 const auth = getAuth(app);
-
-
-
 const NavBar = (props) => {
     const [user, setUser] = useContext(userContext)
     const email = getUserItem()
-
-    console.log(user)
     const handleLogOut = () => {
-        signOut(auth).then(() => {
-            setUser({ email: "", displayName: "" })
-            removeUserItem()
-        }).catch((error) => {
-            console.log(error)
-        });
+        signOut(auth)
+            .then(() => {
+                removeUserItem();
+                setUser({ email: "", displayName: "" });
+                < Navigate to="/login" />
+            }).catch((error) => {
+                console.log(error)
+            });
     }
+
+    let button = null
+    if (email || user.email) {
+        button = <Nav.Link onClick={handleLogOut} className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+            Logout
+        </Nav.Link>
+    } else if (!email) {
+        button = <Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+            Login
+        </Nav.Link>
+    } else {
+        button = <Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
+            Login
+        </Nav.Link>
+    }
+
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -39,12 +53,7 @@ const NavBar = (props) => {
 
                 </Nav>
                 <Nav.Link className="ms-auto" as={Link} to="/review-order"><FontAwesomeIcon icon={faShoppingCart} /> My Cart ({props.cart.length})</Nav.Link>
-
-                {email ? <Nav.Link onClick={handleLogOut} className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
-                    Logout
-                </Nav.Link> : <Nav.Link className="ms-auto" as={Link} to="/login"><FontAwesomeIcon icon={faUser} />
-                    Login
-                </Nav.Link>}
+                {button}
 
 
             </Container>
